@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from pm25 import get_pm25
+
 
 app = Flask(__name__)
 
@@ -18,6 +20,8 @@ def get_date():
 
     return date.strftime('%Y-%m-%d %H:%M:%S')
 
+# <type:id>
+
 
 @app.route('/book/<int:id>')
 def get_book(id):
@@ -29,11 +33,16 @@ def get_book(id):
         print(e)
         return '書籍編號錯誤!'
 
+# http://127.0.0.1:5000/sum/x=10&y=20
+
 
 @app.route('/sum/x=<a>&y=<b>')
 def get_sum(a, b):
     total = eval(a)+eval(b)
     return f'{a}+{b}={total}'
+
+# http://127.0.0.1:5000/bmi/height=176&weight=155
+# return 'BMI:25.5'
 
 
 @app.route('/bmi/name=<name>&height=<height>&weight=<weight>')
@@ -48,7 +57,7 @@ def get_bmi(name, height, weight):
 
 @app.route('/stock')
 def get_stock():
-    # 爬蟲
+    # # 爬蟲
     stocks = [
         {'分類': '日經指數', '指數': '22,920.30'},
         {'分類': '韓國綜合', '指數': '2,304.59'},
@@ -56,8 +65,22 @@ def get_stock():
         {'分類': '上海綜合', '指數': '3,380.68'}
     ]
 
-    return render_template('./stock.html', date=get_date(), stocks=stocks)
+    date = get_date()
+
+    return render_template('./stock.html', date=date, stocks=stocks)
 
 
-print(get_date())
-app.run(debug=True)
+@app.route('/pm25', methods=['GET', 'POST'])
+def pm25():
+    sort = False
+    if request.method == 'POST':
+        sort = True
+
+    date = get_date()
+    columns, values = get_pm25(sort)
+    return render_template('./pm25.html', **locals())
+
+
+if __name__ == '__main__':
+    # pm25()
+    app.run(debug=True)
