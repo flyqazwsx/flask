@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{url_for('static',filename='./css/main.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='./css/pm25.css')}}">
 
+
+
 </head>
 
 <body>
@@ -16,7 +18,7 @@
         <h1>PM2.5全台資訊</h1>
         <p id="date">{{date}}</p>
         <form action="/pm25" method="POST">
-            <input type="submit" value="排序">
+            <input type="submit" value="排序" id="sort">
         </form>
         <p>
             <a href="/">首頁</a>
@@ -41,6 +43,16 @@
         </table>
 
     </div>
+    <script>
+        //document.querySelector('h1').innerText = "Test!";
+        $('h1').text("Test!");
+        $('h1').css("background-color", "red");
+        //const sortEl = document.querySelector("#sort");
+        //sortEl.addEventListener("click", () => {
+        //    alert("sort!");
+        //});
+        $("#sort").click(() => alert("sort!"));
+    </script>
 </body>
 
 </html>
