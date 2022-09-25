@@ -84,7 +84,7 @@ def pm25():
 
 @app.route('/pm25_charts')
 def pm25_charts():
-    return render_template('./pm25_chatrs.html')
+    return render_template('./pm25_charts.html')
 
 
 @app.route('/pm25-json')
