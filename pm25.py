@@ -33,7 +33,7 @@ def get_six_pm25():
 def get_countys():
     global df
 
-    return list(set(df['county']))
+    return sorted(set(df['county']))
 
 
 def get_county_pm25(county):
